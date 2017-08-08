@@ -1,0 +1,8 @@
+{
+  "name": "factory_pattern",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": "git@github.com:nosleepfilipe/queueManager.git",
+  "author": "Filipe Dias <mail@filipedias.me>"
+}
