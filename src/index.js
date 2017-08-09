@@ -1,54 +1,27 @@
-//type of queues
+'use strict';
 
-//SQS
-function QueueSqs (options) {
-  this.config = options;
+const QueueFactory =  require('../queuefactory/factory.js');
 
-}
-//REDIS
-function QueueRedis (options) {
-  this.config = options;
+class QueueManager {
 
-}
-
-
-//queueManager
-
-function QueueManager () {}
-
-
-QueueManager.prototype.queueClass = QueueSqs;
-
-
-QueueManager.prototype.createQueue = function (options) {
-
-  switch (options.queueType) {
-    case 'sqs' :
-      this.queueClass = QueueSqs;
-      break;
-    case 'redis' :
-      this.queueClass = QueueRedis;
-      break;
+  constructor (config) {
+    this.config = config;
+    this.defaultConnection = config['default-connection'];
+    this.queues = {};
+    this.queueFactory =  new QueueFactory(config);
+    //console.log(this.queueFactory);
   }
 
-  return new this.queueClass (options);
+  push (job) {
+    this.queueFactory.push(job);
 
-};
-
-
-const queue = new QueueManager();
-const sqs = queue.createQueue({
-  queueType : 'sqs',
-  config : {
-    url : '',
-    user : '',
-    password : ''
   }
-});
 
-console.log(sqs instanceof QueueSqs);
-console.log(sqs);
 
+  onConnection (connection) {
+    return this.queueFactory.connection(connection);
+  }
+}
 
 
 
