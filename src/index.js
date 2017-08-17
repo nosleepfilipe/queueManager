@@ -6,9 +6,9 @@ class QueueManager {
 
   constructor (config) {
     this.config = config;
-    this.defaultConnection = config['default-connection'];
+    this.defaultConnection = this.config['default-connection'];
     this.queues = {};
-    this.queueFactory =  new QueueFactory(config);
+    this.queueFactory =  new QueueFactory(this.config);
     //console.log(this.queueFactory);
   }
 
@@ -19,7 +19,7 @@ class QueueManager {
 
 
   onConnection (connection) {
-    return this.queueFactory.connection(connection);
+    return this.queueFactory.onConnection(connection);
   }
 }
 
