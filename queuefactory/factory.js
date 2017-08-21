@@ -14,9 +14,7 @@ class QueueFactory {
     this.queues = {};
     this.connections = {};
     this.defaultConnection = this.config['default-connection'];
-    console.log('set default  queue ',this.defaultConnection);
     this.createQueue(this.config['default-connection'],this.config.connections[this.config['default-connection']]);
-    //return this;
   }
 
   createQueue (name,options) {
@@ -31,31 +29,33 @@ class QueueFactory {
         this.connectionClass = ConnectionRedis;
         break;
     }
-    console.log('create new queue ', name);
     this.queues[name] = new this.queueClass (options);
 
     this.connectionClass[name] = new this.connectionClass (options);
   }
 
   push (job) {
-    //console.log(this.connectionClass[this.defaultConnection]);
-    //console.log(this.queues);
-    //return false ;
     let queue = this.queues[this.defaultConnection];
-    queue.pushJob(job,this.connectionClass[this.defaultConnection]);
+    queue.push(job,this.connectionClass[this.defaultConnection]);
+
   }
 
   onConnection (connection) {
-    this.defaultConnection = connection;
+    //this.defaultConnection = connection;
 
     if(!this.queues[connection]) {
-      console.log('create new queue first time ', connection);
       this.createQueue(connection,this.config.connections[connection]);
     }
     return this.queues[connection];
 
   }
 
+  onQueue (queueName) {
+    let queue = this.queues[this.defaultConnection];
+    console.log(queue);
+    queue.onQueue(queueName);
+
+  }
 
 }
 
