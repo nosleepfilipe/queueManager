@@ -6,7 +6,7 @@ class QueueRedis {
     this.options = options;
   }
 
-  pushJob (job, connection) {
+  push (job, connection) {
     console.log('queue REDIS ', job);
   }
 }
