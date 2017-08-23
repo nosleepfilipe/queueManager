@@ -17,14 +17,15 @@ class QueueManager {
 
   }
 
+  onQueue (queueName) {
+
+    return this.queueFactory.onQueue(queueName);
+  }
 
   onConnection (connection) {
     return this.queueFactory.onConnection(connection);
   }
-
-  onQueue (queueName) {
-    return this.queueFactory.onQueue(queueName);
-  }
-
 }
+
+
 

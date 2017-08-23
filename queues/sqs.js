@@ -2,20 +2,22 @@
 
 class QueueSqs {
 
-  constructor (options) {
+  constructor (options,defaultQueueName) {
     this.options = options;
+    this.options.defaultQueueName = defaultQueueName;
   }
 
-  push (job, connection){
-    console.log('queue SQS ', job);
-  }
-
-  onQueue (queueName) {
-    if(this.options.queueName !== queueName) {
-      throw new Error("This queue doesn't exist in this connection");
+  push (job, connection, queueName){
+    if(!queueName) {
+      queueName = this.queueName;
     }
-  }
+    let data = {
+      MessageBody : job,
+      QueueUrl : `${this.options.queueUrl}${this.options.queueAccount}/${queueName}`
+    }
+    return connection.sendMessage(data).promise();
 
+  }
 
 }
 

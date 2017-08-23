@@ -6,7 +6,10 @@ class ConnectionRedis{
 
   constructor (config) {
     this.config = config;
-    this.client = redis.createClient();
+    this.client = redis.createClient({
+      host: this.config.host,
+      port: this.config.port
+    });
     return this.client;
   }
 

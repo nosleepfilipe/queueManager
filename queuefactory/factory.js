@@ -14,6 +14,7 @@ class QueueFactory {
     this.queues = {};
     this.connections = {};
     this.defaultConnection = this.config['default-connection'];
+    this.defaultQueueName = this.config['default-queue-name'];
     this.createQueue(this.config['default-connection'],this.config.connections[this.config['default-connection']]);
   }
 
@@ -30,30 +31,36 @@ class QueueFactory {
         break;
     }
     this.queues[name] = new this.queueClass (options);
+    this.connectionClass[name] = new this.connectionClass (options,this.defaultQueueName) ;
+    this.connection = name;
 
-    this.connectionClass[name] = new this.connectionClass (options);
   }
 
   push (job) {
-    let queue = this.queues[this.defaultConnection];
-    queue.push(job,this.connectionClass[this.defaultConnection]);
+
+    console.log()
+    let queue = this.queues[this.connection || this.defaultConnection];
+    let pushedJob = queue.push(job,this.connectionClass[this.connection || this.defaultConnection],(this.queue || this.defaultQueueName));
+    this.queue = undefined;
+    this.connection = undefined;
+    return pushedJob;
 
   }
 
-  onConnection (connection) {
-    //this.defaultConnection = connection;
+  onConnection (connectionName) {
 
-    if(!this.queues[connection]) {
-      this.createQueue(connection,this.config.connections[connection]);
+    this.connection = connectionName;
+    if(!this.queues[connectionName]){
+      this.createQueue(connectionName,this.config.connections[connectionName]);
     }
-    return this.queues[connection];
+    return this;
 
   }
 
   onQueue (queueName) {
-    let queue = this.queues[this.defaultConnection];
-    console.log(queue);
-    queue.onQueue(queueName);
+
+    this.queue = queueName;
+    return this;
 
   }
 
