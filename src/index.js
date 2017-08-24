@@ -5,27 +5,34 @@ const QueueFactory =  require('../queuefactory/factory.js');
 class QueueManager {
 
   constructor (config) {
+
     this.config = config;
     this.defaultConnection = this.config['default-connection'];
+    this.defaultQueueName = this.config['default-queue-name'];
     this.queues = {};
-    this.queueFactory =  new QueueFactory(this.config);
-    //console.log(this.queueFactory);
+    this.queueFactory =  new QueueFactory();
+    this.queues[this.defaultConnection] = this.queueFactory.createQueue(this.config.connections[this.defaultConnection]);
+
   }
 
   push (job) {
-    this.queueFactory.push(job);
+
+    return this.queues[this.defaultConnection].push(job);
 
   }
 
-  onQueue (queueName) {
 
-    return this.queueFactory.onQueue(queueName);
-  }
+  onConnection (connectionName) {
 
-  onConnection (connection) {
-    return this.queueFactory.onConnection(connection);
+    if(!this.queues[connectionName]) {
+      this.queues[connectionName] = this.queueFactory.createQueue(this.config.connections[connectionName]);
+    }
+    return this.queues[connectionName] ;
+
   }
 }
+
+
 
 
 

@@ -9,18 +9,13 @@ const ConnectionRedis =  require('../connections/redis.js');
 
 class QueueFactory {
 
-  constructor (config) {
-    this.config = config;
-    this.queues = {};
-    this.connections = {};
-    this.defaultConnection = this.config['default-connection'];
-    this.defaultQueueName = this.config['default-queue-name'];
-    this.createQueue(this.config['default-connection'],this.config.connections[this.config['default-connection']]);
+  constructor () {
+
   }
 
-  createQueue (name,options) {
-
-     switch (options.driver) {
+  createQueue (config) {
+    //let connectionConfig = this.config.connections[name];
+     switch (config.driver) {
       case 'sqs' :
         this.queueClass = QueueSqs;
         this.connectionClass = ConnectionSqs;
@@ -30,39 +25,11 @@ class QueueFactory {
         this.connectionClass = ConnectionRedis;
         break;
     }
-    this.queues[name] = new this.queueClass (options);
-    this.connectionClass[name] = new this.connectionClass (options,this.defaultQueueName) ;
-    this.connection = name;
+
+    return new this.queueClass(config, new this.connectionClass(config));
 
   }
 
-  push (job) {
-
-    console.log()
-    let queue = this.queues[this.connection || this.defaultConnection];
-    let pushedJob = queue.push(job,this.connectionClass[this.connection || this.defaultConnection],(this.queue || this.defaultQueueName));
-    this.queue = undefined;
-    this.connection = undefined;
-    return pushedJob;
-
-  }
-
-  onConnection (connectionName) {
-
-    this.connection = connectionName;
-    if(!this.queues[connectionName]){
-      this.createQueue(connectionName,this.config.connections[connectionName]);
-    }
-    return this;
-
-  }
-
-  onQueue (queueName) {
-
-    this.queue = queueName;
-    return this;
-
-  }
 
 }
 

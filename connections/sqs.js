@@ -5,10 +5,10 @@ const AWS = require('aws-sdk');
 
 class ConnectionSqs {
 
-  constructor (config) {
-    this.config = config;
+  constructor (connection) {
+    this.connection = connection;
     this.sqs = new AWS.SQS({
-      region: this.config.region,
+      region: this.connection.region,
     });
 
     return this.sqs;
