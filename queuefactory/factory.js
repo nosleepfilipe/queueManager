@@ -14,8 +14,8 @@ class QueueFactory {
   }
 
   createQueue (config) {
-    //let connectionConfig = this.config.connections[name];
-     switch (config.driver) {
+
+    switch (config.driver) {
       case 'sqs' :
         this.queueClass = QueueSqs;
         this.connectionClass = ConnectionSqs;
