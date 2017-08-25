@@ -16,7 +16,11 @@ class QueueSqs {
 
   push (job) {
     this.data.MessageBody = job;
-    return this.connection.sendMessage(this.data).promise();
+    return this.connection.sendMessage(this.data).promise().then(result =>{
+      return result.MessageId;
+    }).catch(err =>{
+      return err;
+    }) ;
 
   }
 

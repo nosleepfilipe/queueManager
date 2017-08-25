@@ -8,7 +8,7 @@ class ConnectionRedis{
     this.config = config;
     this.client = redis.createClient({
       host: this.config.host,
-      port: this.config.port
+      port: this.config.port,
     });
     return this.client;
   }
