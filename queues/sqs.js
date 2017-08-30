@@ -1,11 +1,12 @@
 'use strict';
 
-const ConnectionSqs = require('../connections/sqs.js');
+const Queue = require('./queue.js');
 
-class QueueSqs {
+class QueueSqs extends Queue {
 
   constructor (queue,connection) {
 
+    super();
     this.queue = queue;
     this.connection = connection;
     this.data = {
@@ -18,8 +19,7 @@ class QueueSqs {
 
   push (jobName,job) {
 
-    let jobStringify = JSON.stringify(job);
-    this.data.MessageBody = jobStringify;
+    this.data.MessageBody = this.standardizeJob(jobName,job);
     return this.connection.sendMessage(this.data).promise().then(result =>{
       return result.MessageId;
     }).catch(err =>{

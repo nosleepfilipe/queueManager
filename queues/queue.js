@@ -7,7 +7,7 @@ class Queue {
 
     let jobQueue = {
       jobInfo : {
-        jobName,
+        jobName : jobName,
         attempts : 0
       },
       payload : job

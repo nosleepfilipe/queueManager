@@ -17,7 +17,7 @@ class QueueManager {
 
   push (jobName, job) {
 
-    return this.queues[this.defaultConnection].push(job);
+    return this.queues[this.defaultConnection].push(jobName,job);
 
   }
 

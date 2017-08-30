@@ -1,11 +1,13 @@
 'use strict';
 
+const Queue = require('./queue.js');
 const sha1 = require('sha1');
 
-class QueueRedis {
+class QueueRedis extends Queue {
 
   constructor (options, connection) {
 
+    super();
     this.options = options;
     this.connection = connection;
 
@@ -44,16 +46,8 @@ class QueueRedis {
   push (jobName, job) {
 
     let key = sha1(new Date());
-    let jobQueue = {
-      jobInfo : {
-        jobName,
-        attempts : 0,
-      },
-      payload : job
-    }
-    let jobStringify = JSON.stringify(jobQueue);
     return new Promise((resolve, reject) => {
-      this.connection.set(key,jobStringify, (err, result) => {
+      this.connection.set(key,this.standardizeJob(jobName,job), (err, result) => {
       err ? reject(err) : resolve(key);
       });
     });
