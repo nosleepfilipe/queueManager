@@ -15,6 +15,7 @@ class SendEmail {
         pass: 'sNy>j)_[#4T.W,12'
       }
     });
+
     this.mailOptions = {
       from: '"Some Email" <nodemailer.p0mepxmtjkkg.5vwx@ethereal.email>',
       to: '',
@@ -33,15 +34,15 @@ class SendEmail {
     this.mailOptions.text = job.text;
 
     this.transporter.sendMail(this.mailOptions, (error, result) => {
+
       if(error) {
         console.log(error);
       }
       console.log(result);
+
     });
 
-
   }
-
 
 }
 

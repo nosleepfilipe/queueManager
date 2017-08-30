@@ -15,7 +15,7 @@ class QueueManager {
 
   }
 
-  push (job) {
+  push (jobName, job) {
 
     return this.queues[this.defaultConnection].push(job);
 
@@ -32,7 +32,5 @@ class QueueManager {
   }
 }
 
-
-
-
+module.exports = QueueManager;
 
