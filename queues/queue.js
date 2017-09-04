@@ -12,8 +12,26 @@ class Queue {
       },
       payload : job
     };
+
     return JSON.stringify(jobQueue);
 
+  }
+
+  incrementAttemps (job) {
+
+    job.jonInfo.attempts = job.jobInfo.attempts + 1;
+
+    return job;
+
+  }
+
+  retrieveJob (job,jobId) {
+
+    job = JSON.parse(job);
+    job.jobInfo.id = jobId;
+    job.jobInfo.connection = this.connection;
+
+    return job;
   }
 
 }

@@ -21,12 +21,18 @@ class QueueManager {
 
   }
 
+  getJob () {
+
+    return this.queues[this.defaultConnection].getJob();
+
+  }
 
   onConnection (connectionName) {
 
     if(!this.queues[connectionName]) {
       this.queues[connectionName] = this.queueFactory.createQueue(this.config.connections[connectionName]);
     }
+
     return this.queues[connectionName] ;
 
   }
