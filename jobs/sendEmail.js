@@ -12,7 +12,7 @@ class SendEmail {
       secure : false,
       auth : {
         user: 'nodemailer.p0mepxmtjkkg.5vwx@ethereal.email',
-        pass: 'sNy>j)_[#4T.W,12'
+        pass: 'sNy>j)_[#4T.W,12filipe'
       }
     });
 
@@ -26,21 +26,15 @@ class SendEmail {
 
   }
 
-  runJob (job) {
+  runJob (payload) {
 
-    this.mailOptions.to = job.to;
-    this.mailOptions.subject = job.subject;
-    this.mailOptions.html = job.html;
-    this.mailOptions.text = job.text;
+    this.mailOptions.to = payload.to;
+    this.mailOptions.subject = payload.subject;
+    this.mailOptions.html = payload.html;
+    this.mailOptions.text = payload.text;
 
-    this.transporter.sendMail(this.mailOptions, (error, result) => {
-
-      if(error) {
-        console.log(error);
-      }
-      console.log(result);
-
-    });
+    // if doesn't have callback with return a promise
+    return this.transporter.sendMail(this.mailOptions);
 
   }
 

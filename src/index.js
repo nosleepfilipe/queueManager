@@ -21,6 +21,20 @@ class QueueManager {
 
   }
 
+  //incrementAttempts (job) {
+
+    //return this.queues[this.defaultConnection].incrementAttempts(job);
+
+  //}
+
+
+  releaseFailedJob (job) {
+
+    return this.queues[this.defaultConnection].releaseFailedJob(job);
+
+  }
+
+
   getJob () {
 
     return this.queues[this.defaultConnection].getJob();

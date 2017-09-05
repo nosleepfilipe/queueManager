@@ -3,33 +3,31 @@
 class Queue {
 
 
-  standardizeJob (jobName,job) {
+  standardizeJob (name,payload) {
 
     let jobQueue = {
-      jobInfo : {
-        jobName : jobName,
-        attempts : 0
-      },
-      payload : job
+      name,
+      attempts : 0,
+      payload
     };
 
-    return JSON.stringify(jobQueue);
+    return jobQueue;
 
   }
 
-  incrementAttemps (job) {
+  incrementAttempts (job) {
 
-    job.jonInfo.attempts = job.jobInfo.attempts + 1;
+    job.attempts++;
 
     return job;
 
   }
 
-  retrieveJob (job,jobId) {
+  retrieveJob (job,id) {
 
     job = JSON.parse(job);
-    job.jobInfo.id = jobId;
-    job.jobInfo.connection = this.connection;
+    job.id = id;
+    //job.connection = this.connection;
 
     return job;
   }
