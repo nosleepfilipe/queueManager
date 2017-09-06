@@ -21,11 +21,10 @@ class QueueManager {
 
   }
 
-  //incrementAttempts (job) {
+  deleteJob (job) {
 
-    //return this.queues[this.defaultConnection].incrementAttempts(job);
-
-  //}
+    return this.queues[this.defaultConnection].deleteJob(job);
+  }
 
 
   releaseFailedJob (job) {

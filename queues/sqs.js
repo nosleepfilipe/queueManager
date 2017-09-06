@@ -62,7 +62,7 @@ class QueueSqs extends Queue {
   releaseFailedJob (job) {
 
     job = this.incrementAttempts(job);
-    return this.deleteJob(job.id).then( result => {
+    return this.deleteJob(job).then( result => {
 
       return this.pushRaw(job);
     }).catch(err => {
@@ -71,17 +71,19 @@ class QueueSqs extends Queue {
     });
   }
 
-  deleteJob (id) {
+  deleteJob (job) {
 
     let data = {
       QueueUrl : this.queueURL,
-      ReceiptHandle : id
+      ReceiptHandle : job.id
     };
     return this.connection.deleteMessage(data).promise().then(result => {
+      console.log('result of deleting a job from the queue -> ',result);
 
       return result;
     }).catch(err =>{
 
+      console.log('erro trying to delete a job from the queue -> ', err)
       return err;
     });
 

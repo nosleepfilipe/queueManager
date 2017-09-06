@@ -12,7 +12,7 @@ class SendEmail {
       secure : false,
       auth : {
         user: 'nodemailer.p0mepxmtjkkg.5vwx@ethereal.email',
-        pass: 'sNy>j)_[#4T.W,12filipe'
+        pass: 'sNy>j)_[#4T.W,12'
       }
     });
 
