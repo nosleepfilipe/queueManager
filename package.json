@@ -1,5 +1,5 @@
 {
-  "name": "factory_pattern",
+  "name": "QueueManager",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
