@@ -4,5 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "repository": "git@github.com:nosleepfilipe/queueManager.git",
-  "author": "Filipe Dias <mail@filipedias.me>"
+  "author": "Filipe Dias <mail@filipedias.me>",
+  "dependencies": {
+    "aws-sdk": "^2.100.0",
+    "nodemailer": "^4.1.0",
+    "redis": "^2.8.0",
+    "sha1": "^1.1.1"
+  }
 }
