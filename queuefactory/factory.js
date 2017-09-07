@@ -13,6 +13,10 @@ class QueueFactory {
 
   }
 
+  /**
+   * Creates a new instance of a queue
+   * that will have a connection associated
+  */
   createQueue (config) {
 
     switch (config.driver) {
