@@ -2,7 +2,11 @@
 
 class Queue {
 
-
+  /**
+   * Creates a standardize job to insert in the queue
+   * @param name string
+   * @param payload object
+  */
   standardizeJob (name,payload) {
 
     let jobQueue = {
@@ -15,6 +19,10 @@ class Queue {
 
   }
 
+  /**
+   * Incrementes the attempts of the jobs when it fails
+   * @params job object
+  */
   incrementAttempts (job) {
 
     job.attempts++;
@@ -23,11 +31,15 @@ class Queue {
 
   }
 
+  /**
+   * Add the id to the job object
+   * @params job object,
+   * @params id string
+  */
   retrieveJob (job,id) {
 
     job = JSON.parse(job);
     job.id = id;
-    //job.connection = this.connection;
 
     return job;
   }

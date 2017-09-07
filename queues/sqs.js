@@ -11,15 +11,22 @@ class QueueSqs extends Queue {
     this.connection = connection;
     this.queueURL =  `https://sqs.${this.queue.region}.amazonaws.com/${this.queue.account}/${this.queue.queueName}`
 
-
   }
 
-
+  /**
+   * Standardize the job and sends to SQS.
+   * @param name string
+   * @param job object
+  */
   push (name,job) {
 
     return this.pushRaw(this.standardizeJob(name,job));
   }
 
+  /**
+   * push a job to queue
+   * @param job object
+  */
   pushRaw (job) {
 
     let data = {
@@ -34,6 +41,9 @@ class QueueSqs extends Queue {
     });
   }
 
+  /**
+   * Get a job from queue
+  */
   getJob () {
 
     let data = {
@@ -51,7 +61,11 @@ class QueueSqs extends Queue {
 
     return this.connection.receiveMessage(data).promise().then(result => {
 
-      return this.retrieveJob(result.Messages[0].Body, result.Messages[0].ReceiptHandle);
+      if(result.Messages){
+        return this.retrieveJob(result.Messages[0].Body, result.Messages[0].ReceiptHandle);
+      } else {
+        return undefined;
+      }
     }).catch(err => {
 
       return err;
@@ -59,6 +73,12 @@ class QueueSqs extends Queue {
 
   }
 
+  /**
+   * Add more one attempt to the job
+   * Deletes the job from the queue
+   * Adds the job again in the queue
+   * @param job object
+  */
   releaseFailedJob (job) {
 
     job = this.incrementAttempts(job);
@@ -71,6 +91,11 @@ class QueueSqs extends Queue {
     });
   }
 
+
+  /**
+   * Delete a job from the queue
+   * @param job object
+  */
   deleteJob (job) {
 
     let data = {
@@ -78,12 +103,10 @@ class QueueSqs extends Queue {
       ReceiptHandle : job.id
     };
     return this.connection.deleteMessage(data).promise().then(result => {
-      console.log('result of deleting a job from the queue -> ',result);
 
       return result;
     }).catch(err =>{
 
-      console.log('erro trying to delete a job from the queue -> ', err)
       return err;
     });
 

@@ -15,31 +15,50 @@ class QueueManager {
 
   }
 
+  /**
+   * Standardize the job and sends to SQS.
+   * @param name string
+   * @param job object
+  */
   push (jobName, job) {
 
     return this.queues[this.defaultConnection].push(jobName,job);
-
   }
 
+  /**
+   * Delete a job from the queue
+   * @param job object
+  */
   deleteJob (job) {
 
     return this.queues[this.defaultConnection].deleteJob(job);
   }
 
-
+  /**
+   * Add more one attempt to the job
+   * Deletes the job from the queue
+   * Adds the job again in the queue
+   * @param job object
+  */
   releaseFailedJob (job) {
 
     return this.queues[this.defaultConnection].releaseFailedJob(job);
-
   }
 
-
+  /**
+   * Get a job from queue
+  */
   getJob () {
 
     return this.queues[this.defaultConnection].getJob();
-
   }
 
+  /**
+   * Creates a new Queue with the connection
+   * if doesn't exist
+   * if exist it returns the queue with the connection
+   * @param connectionName string:w
+  */
   onConnection (connectionName) {
 
     if(!this.queues[connectionName]) {
@@ -47,7 +66,6 @@ class QueueManager {
     }
 
     return this.queues[connectionName] ;
-
   }
 }
 
