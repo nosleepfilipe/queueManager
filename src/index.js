@@ -57,7 +57,7 @@ class QueueManager {
    * Creates a new Queue with the connection
    * if doesn't exist
    * if exist it returns the queue with the connection
-   * @param connectionName string:w
+   * @param connectionName string
   */
   onConnection (connectionName) {
 
